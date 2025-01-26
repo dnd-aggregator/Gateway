@@ -29,4 +29,19 @@ public class PlayerGatewayClient : IPlayerGatewayClient
 
         return players;
     }
+
+    public async Task AddPlayer(AddPlayerRequest request, CancellationToken cancellationToken)
+    {
+        var grpcRequest = new AddPlayerGrpcRequest()
+        {
+            Player = new PlayerGrpc()
+            {
+                ScheduleId = request.ScheduleId,
+                UserId = request.UserId,
+                CharacterId = request.CharacterId,
+            },
+        };
+
+        AddPlayerGrpcResponse grpcResponse = await _playersGrpcClient.AddPlayerAsync(grpcRequest);
+    }
 }
