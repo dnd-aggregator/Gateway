@@ -1,5 +1,6 @@
 #pragma warning disable CA1506
 
+using Character.Validation;
 using Gateway.Application.Extensions;
 using Gateway.Presentation.Grpc.Extensions;
 using Gateway.Presentation.Http.Extensions;
@@ -34,6 +35,11 @@ builder.Services.AddGrpcClient<ScheduleService.ScheduleServiceClient>((_, o) =>
 builder.Services.AddGrpcClient<PlayersGrpcService.PlayersGrpcServiceClient>((_, o) =>
 {
     o.Address = new Uri("http://localhost:8071");
+});
+
+builder.Services.AddGrpcClient<UserGrpcService.UserGrpcServiceClient>((_, o) =>
+{
+    o.Address = new Uri("http://localhost:5000");
 });
 
 // builder.Services.AddPresentationKafka(builder.Configuration);
