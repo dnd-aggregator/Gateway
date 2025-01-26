@@ -56,4 +56,27 @@ public class PlayerGatewayClient : IPlayerGatewayClient
             _ => new AddPlayerResponse.AddPlayerUnknownResponse(),
         };
     }
+
+    public async Task PatchCharacter(PlayerGatewayModel player, CancellationToken cancellationToken)
+    {
+        var grpcRequest = new PatchCharacterGrpcRequest()
+        {
+            CharacterId = player.CharacterId,
+            ScheduleId = player.ScheduleId,
+            UserId = player.UserId,
+        };
+
+        await _playersGrpcClient.PatchCharacterAsync(grpcRequest);
+    }
+
+    public async Task DeletePlayer(PlayerGatewayModel player, CancellationToken cancellationToken)
+    {
+        var grpcRequest = new DeletePlayerGrpcRequest()
+        {
+            ScheduleId = player.ScheduleId,
+            PayerId = player.UserId,
+        };
+
+        await _playersGrpcClient.DeletePlayerFromScheduleAsync(grpcRequest);
+    }
 }

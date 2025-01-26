@@ -29,4 +29,16 @@ public class PlayerController : ControllerBase
             _ => new ConflictResult(),
         };
     }
+
+    [HttpPatch]
+    public async Task PatchCharacter(PlayerGatewayModel player, CancellationToken cancellationToken)
+    {
+        await _playerGatewayService.PatchCharacter(player, cancellationToken);
+    }
+
+    [HttpDelete]
+    public async Task DeletePlayer(PlayerGatewayModel player, CancellationToken cancellationToken)
+    {
+        await _playerGatewayService.DeletePlayer(player, cancellationToken);
+    }
 }

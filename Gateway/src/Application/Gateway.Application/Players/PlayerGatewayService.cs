@@ -16,4 +16,14 @@ public class PlayerGatewayService : IPlayerGatewayService
     {
         return await _playerGatewayClient.AddPlayer(player, cancellationToken);
     }
+
+    public async Task PatchCharacter(PlayerGatewayModel player, CancellationToken cancellationToken)
+    {
+        await _playerGatewayClient.PatchCharacter(player, cancellationToken);
+    }
+
+    public async Task DeletePlayer(PlayerGatewayModel player, CancellationToken cancellationToken)
+    {
+        await _playerGatewayClient.DeletePlayer(player, cancellationToken);
+    }
 }
