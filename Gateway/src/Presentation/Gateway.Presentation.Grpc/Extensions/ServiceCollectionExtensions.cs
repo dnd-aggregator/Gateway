@@ -1,3 +1,4 @@
+using Gateway.Application.Contracts.Players;
 using Gateway.Application.Contracts.Schedules;
 using Gateway.Presentation.Grpc.Clients;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ public static class ServiceCollectionExtensions
         collection.AddGrpc();
         collection.AddGrpcReflection();
         collection.AddScoped<IScheduleGatewayClient, ScheduleGatewayClient>();
+        collection.AddScoped<IPlayerGatewayClient, PlayerGatewayClient>();
 
         return collection;
     }

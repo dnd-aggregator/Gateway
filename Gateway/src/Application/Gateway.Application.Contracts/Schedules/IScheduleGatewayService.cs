@@ -6,5 +6,5 @@ public interface IScheduleGatewayService
 {
     Task<long> CreateSchedule(CreateScheduleRequest request, CancellationToken cancellationToken);
 
-    Task<ScheduleGatewayModel> GetSchedule(long id, CancellationToken cancellationToken);
+    Task<ScheduleWithPlayersModel> GetSchedule(long id, CancellationToken cancellationToken);
 }

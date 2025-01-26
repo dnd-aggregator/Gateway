@@ -31,6 +31,11 @@ builder.Services.AddGrpcClient<ScheduleService.ScheduleServiceClient>((_, o) =>
     o.Address = new Uri("http://localhost:8071");
 });
 
+builder.Services.AddGrpcClient<PlayersGrpcService.PlayersGrpcServiceClient>((_, o) =>
+{
+    o.Address = new Uri("http://localhost:8071");
+});
+
 // builder.Services.AddPresentationKafka(builder.Configuration);
 builder.Services
     .AddControllers()

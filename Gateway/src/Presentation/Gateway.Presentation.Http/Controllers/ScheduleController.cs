@@ -22,7 +22,7 @@ public class ScheduleController : ControllerBase
     }
 
     [HttpGet("{id:long}")]
-    public async Task<ScheduleGatewayModel> GetSchedule(long id, CancellationToken cancellationToken)
+    public async Task<ScheduleWithPlayersModel> GetSchedule(long id, CancellationToken cancellationToken)
     {
         return await _scheduleGatewayService.GetSchedule(id, cancellationToken);
     }
