@@ -1,6 +1,7 @@
 #pragma warning disable CA1506
 
 using Character.Validation;
+using CharactersGrpc.Proto;
 using Gateway.Application.Extensions;
 using Gateway.Presentation.Grpc.Extensions;
 using Gateway.Presentation.Http.Extensions;
@@ -38,6 +39,11 @@ builder.Services.AddGrpcClient<PlayersGrpcService.PlayersGrpcServiceClient>((_, 
 });
 
 builder.Services.AddGrpcClient<UserGrpcService.UserGrpcServiceClient>((_, o) =>
+{
+    o.Address = new Uri("http://localhost:5000");
+});
+
+builder.Services.AddGrpcClient<CharacterService.CharacterServiceClient>((_, o) =>
 {
     o.Address = new Uri("http://localhost:5000");
 });

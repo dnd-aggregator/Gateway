@@ -1,3 +1,5 @@
+using Gateway.Application.Characters;
+using Gateway.Application.Contracts.Characters;
 using Gateway.Application.Contracts.Players;
 using Gateway.Application.Contracts.Schedules;
 using Gateway.Application.Contracts.Users;
@@ -15,6 +17,7 @@ public static class ServiceCollectionExtensions
         collection.AddScoped<IScheduleGatewayService, ScheduleGatewayService>();
         collection.AddScoped<IPlayerGatewayService, PlayerGatewayService>();
         collection.AddScoped<IUserGatewayService, UserGatewayService>();
+        collection.AddScoped<ICharacterGatewayService, CharacterGatewayService>();
         return collection;
     }
 }
