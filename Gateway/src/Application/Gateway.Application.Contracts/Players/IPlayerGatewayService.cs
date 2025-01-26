@@ -4,5 +4,5 @@ namespace Gateway.Application.Contracts.Players;
 
 public interface IPlayerGatewayService
 {
-    Task AddPlayer(AddPlayerRequest player, CancellationToken cancellationToken);
+    Task<AddPlayerResponse> AddPlayer(AddPlayerRequest player, CancellationToken cancellationToken);
 }

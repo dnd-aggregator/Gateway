@@ -6,5 +6,5 @@ public interface IPlayerGatewayClient
 {
     Task<IEnumerable<PlayerGatewayModel>> GetPlayersByScheduleId(long id, CancellationToken cancellationToken);
 
-    Task AddPlayer(AddPlayerRequest request, CancellationToken cancellationToken);
+    Task<AddPlayerResponse> AddPlayer(AddPlayerRequest request, CancellationToken cancellationToken);
 }

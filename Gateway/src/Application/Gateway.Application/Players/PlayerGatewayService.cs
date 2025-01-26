@@ -12,8 +12,8 @@ public class PlayerGatewayService : IPlayerGatewayService
         _playerGatewayClient = playerGatewayClient;
     }
 
-    public async Task AddPlayer(AddPlayerRequest player, CancellationToken cancellationToken)
+    public async Task<AddPlayerResponse> AddPlayer(AddPlayerRequest player, CancellationToken cancellationToken)
     {
-        await _playerGatewayClient.AddPlayer(player, cancellationToken);
+        return await _playerGatewayClient.AddPlayer(player, cancellationToken);
     }
 }

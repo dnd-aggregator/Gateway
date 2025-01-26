@@ -16,8 +16,17 @@ public class PlayerController : ControllerBase
     }
 
     [HttpPost]
-    public async Task AddPlayer(AddPlayerRequest player, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddPlayer(AddPlayerRequest player, CancellationToken cancellationToken)
     {
-        await _playerGatewayService.AddPlayer(player, cancellationToken);
+        AddPlayerResponse response = await _playerGatewayService.AddPlayer(player, cancellationToken);
+
+        return response switch
+        {
+            AddPlayerResponse.AddPlayerSuccessResponse => new OkResult(),
+            AddPlayerResponse.AddPlayerScheduleNotFoundResponse => new NotFoundObjectResult("Not found schedule"),
+            AddPlayerResponse.AddPlayerUserNotFoundResponse => new NotFoundObjectResult("Not found user"),
+            AddPlayerResponse.AddPlayerCharacterNotFoundResponse => new NotFoundObjectResult("Not found character"),
+            _ => new ConflictResult(),
+        };
     }
 }

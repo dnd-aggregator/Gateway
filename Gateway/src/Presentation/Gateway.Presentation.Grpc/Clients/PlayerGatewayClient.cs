@@ -30,7 +30,7 @@ public class PlayerGatewayClient : IPlayerGatewayClient
         return players;
     }
 
-    public async Task AddPlayer(AddPlayerRequest request, CancellationToken cancellationToken)
+    public async Task<AddPlayerResponse> AddPlayer(AddPlayerRequest request, CancellationToken cancellationToken)
     {
         var grpcRequest = new AddPlayerGrpcRequest()
         {
@@ -43,5 +43,17 @@ public class PlayerGatewayClient : IPlayerGatewayClient
         };
 
         AddPlayerGrpcResponse grpcResponse = await _playersGrpcClient.AddPlayerAsync(grpcRequest);
+
+        return grpcResponse.ResultCase switch
+        {
+            AddPlayerGrpcResponse.ResultOneofCase.Success => new AddPlayerResponse.AddPlayerSuccessResponse(),
+            AddPlayerGrpcResponse.ResultOneofCase.ScheduleNotFound =>
+                new AddPlayerResponse.AddPlayerScheduleNotFoundResponse(),
+            AddPlayerGrpcResponse.ResultOneofCase.UserNotFound => new AddPlayerResponse.AddPlayerUserNotFoundResponse(),
+            AddPlayerGrpcResponse.ResultOneofCase.CharacterNotFound =>
+                new AddPlayerResponse.AddPlayerCharacterNotFoundResponse(),
+            AddPlayerGrpcResponse.ResultOneofCase.None => new AddPlayerResponse.AddPlayerUnknownResponse(),
+            _ => new AddPlayerResponse.AddPlayerUnknownResponse(),
+        };
     }
 }
