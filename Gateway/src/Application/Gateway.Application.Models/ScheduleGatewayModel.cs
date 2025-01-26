@@ -4,4 +4,5 @@ public record ScheduleGatewayModel(
     long Id,
     long MasterId,
     string Location,
-    DateOnly Date);
+    DateOnly Date,
+    ScheduleStatus Status);

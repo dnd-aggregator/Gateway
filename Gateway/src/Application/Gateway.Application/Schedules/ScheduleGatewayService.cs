@@ -45,12 +45,7 @@ public class ScheduleGatewayService : IScheduleGatewayService
             users.Add(new UserGatewayWithCharacterModel(user, character));
         }
 
-        return new ScheduleWithPlayersModel(
-            schedule.Id,
-            schedule.MasterId,
-            schedule.Location,
-            schedule.Date,
-            users);
+        return new ScheduleWithPlayersModel(schedule, users);
     }
 
     public async Task<IEnumerable<ScheduleWithPlayersModel>> GetSchedules(
@@ -76,12 +71,7 @@ public class ScheduleGatewayService : IScheduleGatewayService
                 users.Add(new UserGatewayWithCharacterModel(user, character));
             }
 
-            schedules.Add(new ScheduleWithPlayersModel(
-                schedule.Id,
-                schedule.MasterId,
-                schedule.Location,
-                schedule.Date,
-                users));
+            schedules.Add(new ScheduleWithPlayersModel(schedule, users));
         }
 
         return schedules;

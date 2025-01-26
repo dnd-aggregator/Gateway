@@ -41,7 +41,8 @@ public class ScheduleGatewayClient : IScheduleGatewayClient
             grpcResponse.Response.Id,
             grpcResponse.Response.MasterId,
             grpcResponse.Response.Location,
-            DateOnly.FromDateTime(grpcResponse.Response.Date.ToDateTime()));
+            DateOnly.FromDateTime(grpcResponse.Response.Date.ToDateTime()),
+            MapFromGrpc(grpcResponse.Response.ScheduleStatus));
 
         return schedule;
     }
@@ -65,6 +66,20 @@ public class ScheduleGatewayClient : IScheduleGatewayClient
             schedule.Id,
             schedule.MasterId,
             schedule.Location,
-            DateOnly.FromDateTime(schedule.Date.ToDateTime())));
+            DateOnly.FromDateTime(schedule.Date.ToDateTime()),
+            MapFromGrpc(schedule.ScheduleStatus)));
+    }
+
+    private ScheduleStatus MapFromGrpc(ScheduleStatusGrpc statusGrpc)
+    {
+        return statusGrpc switch
+        {
+            ScheduleStatusGrpc.ScheduleStatusDraft => ScheduleStatus.Draft,
+            ScheduleStatusGrpc.ScheduleStatusPlanned => ScheduleStatus.Planned,
+            ScheduleStatusGrpc.ScheduleStatusStarted => ScheduleStatus.Started,
+            ScheduleStatusGrpc.ScheduleStatusFinished => ScheduleStatus.Finished,
+            ScheduleStatusGrpc.ScheduleStatusUnspecified => ScheduleStatus.Unspecified,
+            _ => ScheduleStatus.Unspecified,
+        };
     }
 }
