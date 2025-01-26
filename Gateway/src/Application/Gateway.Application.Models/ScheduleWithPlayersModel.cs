@@ -5,4 +5,4 @@ public record ScheduleWithPlayersModel(
     long MasterId,
     string Location,
     DateOnly Date,
-    IEnumerable<UserGatewayModel> Users);
+    IEnumerable<UserGatewayWithCharacterModel> Users);
