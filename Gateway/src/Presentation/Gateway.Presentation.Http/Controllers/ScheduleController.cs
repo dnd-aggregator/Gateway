@@ -26,4 +26,12 @@ public class ScheduleController : ControllerBase
     {
         return await _scheduleGatewayService.GetSchedule(id, cancellationToken);
     }
+
+    [HttpGet]
+    public async Task<IEnumerable<ScheduleWithPlayersModel>> GetSchedules(
+        [FromQuery] GetSchedulesRequest request,
+        CancellationToken cancellationToken)
+    {
+        return await _scheduleGatewayService.GetSchedules(request, cancellationToken);
+    }
 }

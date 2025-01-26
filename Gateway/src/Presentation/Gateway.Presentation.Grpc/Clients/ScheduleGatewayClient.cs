@@ -45,4 +45,26 @@ public class ScheduleGatewayClient : IScheduleGatewayClient
 
         return schedule;
     }
+
+    public async Task<IEnumerable<ScheduleGatewayModel>> GetSchedules(
+        GetSchedulesRequest request,
+        CancellationToken cancellationToken)
+    {
+        var grpcRequest = new GetSchedulesGrpcRequest()
+        {
+            Ids = { request.Ids ?? [] },
+            Location = request.Location ?? null,
+            Date = Timestamp.FromDateTime(request.Date?.ToDateTime(TimeOnly.MinValue).ToUniversalTime() ?? DateTime.UtcNow),
+            Cursor = request.Cursor,
+            PageSize = request.PageSize,
+        };
+
+        GetSchedulesGrpcResponse schedulesGrpc = await _scheduleServiceClient.GetSchedulesAsync(grpcRequest);
+
+        return schedulesGrpc.Response.Select(schedule => new ScheduleGatewayModel(
+            schedule.Id,
+            schedule.MasterId,
+            schedule.Location,
+            DateOnly.FromDateTime(schedule.Date.ToDateTime())));
+    }
 }

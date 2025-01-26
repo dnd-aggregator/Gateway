@@ -36,4 +36,29 @@ public class ScheduleGatewayService : IScheduleGatewayService
             schedule.Date,
             players);
     }
+
+    public async Task<IEnumerable<ScheduleWithPlayersModel>> GetSchedules(
+        GetSchedulesRequest request,
+        CancellationToken cancellationToken)
+    {
+        IEnumerable<ScheduleGatewayModel> schedulesWithoutPlayers =
+            await _scheduleGatewayClient.GetSchedules(request, cancellationToken);
+
+        var schedules = new List<ScheduleWithPlayersModel>();
+
+        foreach (ScheduleGatewayModel schedule in schedulesWithoutPlayers)
+        {
+            IEnumerable<PlayerGatewayModel> players =
+                await _playerGatewayClient.GetPlayersByScheduleId(schedule.Id, cancellationToken);
+
+            schedules.Add(new ScheduleWithPlayersModel(
+                schedule.Id,
+                schedule.MasterId,
+                schedule.Location,
+                schedule.Date,
+                players));
+        }
+
+        return schedules;
+    }
 }
