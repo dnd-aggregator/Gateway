@@ -1,4 +1,5 @@
 using Gateway.Application.Contracts.Players;
+using Gateway.Application.Models.Characters;
 using Gateway.Application.Models.Players;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,9 +32,21 @@ public class PlayerController : ControllerBase
     }
 
     [HttpPatch]
-    public async Task PatchCharacter(PlayerGatewayModel player, CancellationToken cancellationToken)
+    public async Task<IActionResult> PatchCharacter(PlayerGatewayModel player, CancellationToken cancellationToken)
     {
-        await _playerGatewayService.PatchCharacter(player, cancellationToken);
+        PatchPlayerCharacterResponse response = await _playerGatewayService.PatchCharacter(player, cancellationToken);
+
+        return response switch
+        {
+            PatchPlayerCharacterResponse.PatchCharacterSuccessResponse => new OkResult(),
+            PatchPlayerCharacterResponse.PatchCharacterScheduleNotFoundResponse => new NotFoundObjectResult(
+                "Not found schedule"),
+            PatchPlayerCharacterResponse.PatchCharacterUserNotFoundResponse => new NotFoundObjectResult(
+                "Not found user"),
+            PatchPlayerCharacterResponse.PatchCharacterCharacterNotFoundResponse => new NotFoundObjectResult(
+                "Not found character"),
+            _ => new ConflictResult(),
+        };
     }
 
     [HttpDelete]

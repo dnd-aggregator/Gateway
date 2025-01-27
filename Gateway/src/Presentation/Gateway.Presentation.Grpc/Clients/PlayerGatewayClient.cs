@@ -1,4 +1,5 @@
 using Gateway.Application.Contracts.Players;
+using Gateway.Application.Models.Characters;
 using Gateway.Application.Models.Players;
 using Schedules.Contracts;
 
@@ -57,7 +58,7 @@ public class PlayerGatewayClient : IPlayerGatewayClient
         };
     }
 
-    public async Task PatchCharacter(PlayerGatewayModel player, CancellationToken cancellationToken)
+    public async Task<PatchPlayerCharacterResponse> PatchCharacter(PlayerGatewayModel player, CancellationToken cancellationToken)
     {
         var grpcRequest = new PatchCharacterGrpcRequest()
         {
@@ -66,7 +67,22 @@ public class PlayerGatewayClient : IPlayerGatewayClient
             UserId = player.UserId,
         };
 
-        await _playersGrpcClient.PatchCharacterAsync(grpcRequest);
+        PatchCharacterGrpcResponse response = await _playersGrpcClient.PatchCharacterAsync(grpcRequest);
+
+        return response.ResultCase switch
+        {
+            PatchCharacterGrpcResponse.ResultOneofCase.Success =>
+                new PatchPlayerCharacterResponse.PatchCharacterSuccessResponse(),
+            PatchCharacterGrpcResponse.ResultOneofCase.ScheduleNotFound =>
+                new PatchPlayerCharacterResponse.PatchCharacterScheduleNotFoundResponse(),
+            PatchCharacterGrpcResponse.ResultOneofCase.UserNotFound =>
+                new PatchPlayerCharacterResponse.PatchCharacterUserNotFoundResponse(),
+            PatchCharacterGrpcResponse.ResultOneofCase.None =>
+                new PatchPlayerCharacterResponse.PatchCharacterCharacterNotFoundResponse(),
+            PatchCharacterGrpcResponse.ResultOneofCase.CharacterNotFound =>
+                new PatchPlayerCharacterResponse.PatchCharacterNoKnownResponse(),
+            _ => new PatchPlayerCharacterResponse.PatchCharacterNoKnownResponse(),
+        };
     }
 
     public async Task DeletePlayer(PlayerGatewayModel player, CancellationToken cancellationToken)

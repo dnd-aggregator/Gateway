@@ -1,4 +1,5 @@
 using Gateway.Application.Contracts.Players;
+using Gateway.Application.Models.Characters;
 using Gateway.Application.Models.Players;
 
 namespace Gateway.Application.Players;
@@ -17,9 +18,9 @@ public class PlayerGatewayService : IPlayerGatewayService
         return await _playerGatewayClient.AddPlayer(player, cancellationToken);
     }
 
-    public async Task PatchCharacter(PlayerGatewayModel player, CancellationToken cancellationToken)
+    public async Task<PatchPlayerCharacterResponse> PatchCharacter(PlayerGatewayModel player, CancellationToken cancellationToken)
     {
-        await _playerGatewayClient.PatchCharacter(player, cancellationToken);
+        return await _playerGatewayClient.PatchCharacter(player, cancellationToken);
     }
 
     public async Task DeletePlayer(PlayerGatewayModel player, CancellationToken cancellationToken)
