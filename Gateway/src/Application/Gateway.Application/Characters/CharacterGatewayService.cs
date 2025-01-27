@@ -1,5 +1,5 @@
 using Gateway.Application.Contracts.Characters;
-using Gateway.Application.Models;
+using Gateway.Application.Models.Characters;
 
 namespace Gateway.Application.Characters;
 

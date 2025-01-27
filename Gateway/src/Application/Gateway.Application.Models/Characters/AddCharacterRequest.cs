@@ -1,8 +1,8 @@
-namespace Gateway.Application.Models;
+namespace Gateway.Application.Models.Characters;
 
-public class CharacterGatewayModel
+public class AddCharacterRequest
 {
-    public CharacterGatewayModel(
+    public AddCharacterRequest(
         string characterName,
         string characterDescription,
         int characterLevel,
@@ -26,8 +26,7 @@ public class CharacterGatewayModel
         string flaws,
         string history,
         IReadOnlyCollection<string> activeSkills,
-        IReadOnlyCollection<string> passiveSkills,
-        long userId)
+        IReadOnlyCollection<string> passiveSkills)
     {
         CharacterName = characterName;
         CharacterDescription = characterDescription;
@@ -53,13 +52,7 @@ public class CharacterGatewayModel
         History = history;
         ActiveSkills = activeSkills;
         PassiveSkills = passiveSkills;
-        UserId = userId;
-        Status = CharacterStatus.Draft;
     }
-
-    public long CharacterId { get; set; }
-
-    public long UserId { get; set; }
 
     public string CharacterName { get; set; }
 
@@ -108,6 +101,4 @@ public class CharacterGatewayModel
     public IReadOnlyCollection<string> ActiveSkills { get; set; }
 
     public IReadOnlyCollection<string> PassiveSkills { get; set; }
-
-    public CharacterStatus Status { get; set; }
 }

@@ -1,4 +1,4 @@
-namespace Gateway.Application.Models;
+namespace Gateway.Application.Models.Users;
 
 public record UserGatewayModel(
     long Id,

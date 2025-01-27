@@ -1,4 +1,4 @@
-namespace Gateway.Application.Models;
+namespace Gateway.Application.Models.Schedules;
 
 public record CreateScheduleRequest(
     long MasterId,

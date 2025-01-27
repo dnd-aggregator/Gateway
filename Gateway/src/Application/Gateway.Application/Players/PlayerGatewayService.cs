@@ -1,5 +1,5 @@
 using Gateway.Application.Contracts.Players;
-using Gateway.Application.Models;
+using Gateway.Application.Models.Players;
 
 namespace Gateway.Application.Players;
 

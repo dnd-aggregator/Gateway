@@ -1,5 +1,5 @@
 using Gateway.Application.Contracts.Players;
-using Gateway.Application.Models;
+using Gateway.Application.Models.Players;
 using Schedules.Contracts;
 
 namespace Gateway.Presentation.Grpc.Clients;

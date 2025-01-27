@@ -1,4 +1,6 @@
-namespace Gateway.Application.Models;
+using Gateway.Application.Models.Characters;
+
+namespace Gateway.Application.Models.Users;
 
 public record UserGatewayWithCharacterModel(
     UserGatewayModel User,

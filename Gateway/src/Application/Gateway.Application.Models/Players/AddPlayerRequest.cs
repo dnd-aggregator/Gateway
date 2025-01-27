@@ -1,4 +1,4 @@
-namespace Gateway.Application.Models;
+namespace Gateway.Application.Models.Players;
 
 public record AddPlayerRequest(
     long ScheduleId,

@@ -1,8 +1,4 @@
-// <copyright file="AddPlayerResponse.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace Gateway.Application.Models;
+namespace Gateway.Application.Models.Players;
 
 public abstract record AddPlayerResponse
 {

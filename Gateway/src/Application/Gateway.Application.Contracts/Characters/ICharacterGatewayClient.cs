@@ -1,4 +1,4 @@
-using Gateway.Application.Models;
+using Gateway.Application.Models.Characters;
 
 namespace Gateway.Application.Contracts.Characters;
 

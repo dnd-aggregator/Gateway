@@ -1,6 +1,6 @@
 using CharactersGrpc.Proto;
 using Gateway.Application.Contracts.Characters;
-using Gateway.Application.Models;
+using Gateway.Application.Models.Characters;
 using Gateway.Presentation.Grpc.Mappers;
 
 namespace Gateway.Presentation.Grpc.Clients;

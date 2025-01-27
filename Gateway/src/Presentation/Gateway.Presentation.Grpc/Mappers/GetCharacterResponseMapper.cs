@@ -1,5 +1,5 @@
 using CharactersGrpc.Proto;
-using Gateway.Application.Models;
+using Gateway.Application.Models.Characters;
 
 namespace Gateway.Presentation.Grpc.Mappers;
 

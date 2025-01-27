@@ -1,6 +1,6 @@
 using Character.Validation;
 using Gateway.Application.Contracts.Users;
-using Gateway.Application.Models;
+using Gateway.Application.Models.Users;
 
 namespace Gateway.Presentation.Grpc.Clients;
 

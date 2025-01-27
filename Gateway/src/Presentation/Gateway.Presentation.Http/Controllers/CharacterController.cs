@@ -1,5 +1,5 @@
 using Gateway.Application.Contracts.Characters;
-using Gateway.Application.Models;
+using Gateway.Application.Models.Characters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gateway.Presentation.Http.Controllers;

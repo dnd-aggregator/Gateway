@@ -1,5 +1,5 @@
 using Gateway.Application.Contracts.Schedules;
-using Gateway.Application.Models;
+using Gateway.Application.Models.Schedules;
 using Google.Protobuf.WellKnownTypes;
 using Schedules.Contracts;
 

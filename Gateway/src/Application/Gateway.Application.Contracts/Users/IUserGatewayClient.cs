@@ -1,4 +1,4 @@
-using Gateway.Application.Models;
+using Gateway.Application.Models.Users;
 
 namespace Gateway.Application.Contracts.Users;
 

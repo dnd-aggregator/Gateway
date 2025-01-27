@@ -2,7 +2,10 @@ using Gateway.Application.Contracts.Characters;
 using Gateway.Application.Contracts.Players;
 using Gateway.Application.Contracts.Schedules;
 using Gateway.Application.Contracts.Users;
-using Gateway.Application.Models;
+using Gateway.Application.Models.Characters;
+using Gateway.Application.Models.Players;
+using Gateway.Application.Models.Schedules;
+using Gateway.Application.Models.Users;
 
 namespace Gateway.Application.Schedules;
 

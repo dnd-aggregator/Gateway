@@ -1,4 +1,4 @@
-using Gateway.Application.Models;
+using Gateway.Application.Models.Schedules;
 
 namespace Gateway.Application.Contracts.Schedules;
 
