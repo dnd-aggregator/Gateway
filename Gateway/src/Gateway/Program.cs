@@ -2,6 +2,7 @@
 
 using Character.Validation;
 using CharactersGrpc.Proto;
+using Game;
 using Gateway.Application.Extensions;
 using Gateway.Presentation.Grpc.Extensions;
 using Gateway.Presentation.Http.Extensions;
@@ -46,6 +47,11 @@ builder.Services.AddGrpcClient<UserGrpcService.UserGrpcServiceClient>((_, o) =>
 builder.Services.AddGrpcClient<CharacterService.CharacterServiceClient>((_, o) =>
 {
     o.Address = new Uri("http://localhost:5000");
+});
+
+builder.Services.AddGrpcClient<GameStatusService.GameStatusServiceClient>((_, o) =>
+{
+    o.Address = new Uri("http://localhost:8069");
 });
 
 // builder.Services.AddPresentationKafka(builder.Configuration);
