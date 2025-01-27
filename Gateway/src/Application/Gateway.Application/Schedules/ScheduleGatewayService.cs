@@ -76,4 +76,9 @@ public class ScheduleGatewayService : IScheduleGatewayService
 
         return schedules;
     }
+
+    public async Task PatchScheduleStatus(long scheduleId, ScheduleStatus status, CancellationToken cancellationToken)
+    {
+        await _scheduleGatewayClient.PatchScheduleStatus(scheduleId, status, cancellationToken);
+    }
 }

@@ -70,6 +70,17 @@ public class ScheduleGatewayClient : IScheduleGatewayClient
             MapFromGrpc(schedule.ScheduleStatus)));
     }
 
+    public async Task PatchScheduleStatus(long scheduleId, ScheduleStatus status, CancellationToken cancellationToken)
+    {
+        var grpcRequest = new PatchStatusRequest()
+        {
+            Id = scheduleId,
+            Status = MapToGrpc(status),
+        };
+
+        await _scheduleServiceClient.PatchScheduleStatusAsync(grpcRequest);
+    }
+
     private ScheduleStatus MapFromGrpc(ScheduleStatusGrpc statusGrpc)
     {
         return statusGrpc switch
@@ -80,6 +91,19 @@ public class ScheduleGatewayClient : IScheduleGatewayClient
             ScheduleStatusGrpc.ScheduleStatusFinished => ScheduleStatus.Finished,
             ScheduleStatusGrpc.ScheduleStatusUnspecified => ScheduleStatus.Unspecified,
             _ => ScheduleStatus.Unspecified,
+        };
+    }
+
+    private ScheduleStatusGrpc MapToGrpc(ScheduleStatus statusGrpc)
+    {
+        return statusGrpc switch
+        {
+            ScheduleStatus.Unspecified => ScheduleStatusGrpc.ScheduleStatusUnspecified,
+            ScheduleStatus.Draft => ScheduleStatusGrpc.ScheduleStatusDraft,
+            ScheduleStatus.Planned => ScheduleStatusGrpc.ScheduleStatusPlanned,
+            ScheduleStatus.Started => ScheduleStatusGrpc.ScheduleStatusStarted,
+            ScheduleStatus.Finished => ScheduleStatusGrpc.ScheduleStatusFinished,
+            _ => ScheduleStatusGrpc.ScheduleStatusUnspecified,
         };
     }
 }
