@@ -37,6 +37,8 @@ public class ScheduleGatewayService : IScheduleGatewayService
     {
         ScheduleGatewayModel schedule = await _scheduleGatewayClient.GetSchedule(id, cancellationToken);
 
+        UserGatewayModel master = await _userGatewayClient.GetUser(schedule.MasterId, cancellationToken);
+
         IEnumerable<PlayerGatewayModel> players =
             await _playerGatewayClient.GetPlayersByScheduleId(schedule.Id, cancellationToken);
 
@@ -44,11 +46,18 @@ public class ScheduleGatewayService : IScheduleGatewayService
         foreach (PlayerGatewayModel player in players)
         {
             UserGatewayModel user = await _userGatewayClient.GetUser(player.UserId, cancellationToken);
-            CharacterGatewayModel character = await _characterGatewayClient.GetCharacter(player.CharacterId, cancellationToken);
+            CharacterGatewayModel character =
+                await _characterGatewayClient.GetCharacter(player.CharacterId, cancellationToken);
             users.Add(new UserGatewayWithCharacterModel(user, character));
         }
 
-        return new ScheduleWithPlayersModel(schedule, users);
+        return new ScheduleWithPlayersModel(
+            Id: schedule.Id,
+            Master: master,
+            Location: schedule.Location,
+            Date: schedule.Date,
+            Status: schedule.Status,
+            Users: users);
     }
 
     public async Task<IEnumerable<ScheduleWithPlayersModel>> GetSchedules(
@@ -70,11 +79,20 @@ public class ScheduleGatewayService : IScheduleGatewayService
             foreach (PlayerGatewayModel player in players)
             {
                 UserGatewayModel user = await _userGatewayClient.GetUser(player.UserId, cancellationToken);
-                CharacterGatewayModel character = await _characterGatewayClient.GetCharacter(player.CharacterId, cancellationToken);
+                CharacterGatewayModel character =
+                    await _characterGatewayClient.GetCharacter(player.CharacterId, cancellationToken);
                 users.Add(new UserGatewayWithCharacterModel(user, character));
             }
 
-            schedules.Add(new ScheduleWithPlayersModel(schedule, users));
+            UserGatewayModel master = await _userGatewayClient.GetUser(schedule.MasterId, cancellationToken);
+
+            schedules.Add(new ScheduleWithPlayersModel(
+                schedule.Id,
+                master,
+                schedule.Location,
+                schedule.Date,
+                schedule.Status,
+                users));
         }
 
         return schedules;
