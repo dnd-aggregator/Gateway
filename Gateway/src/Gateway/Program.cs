@@ -54,6 +54,11 @@ builder.Services.AddGrpcClient<GameStatusService.GameStatusServiceClient>((_, o)
     o.Address = new Uri("http://localhost:8069");
 });
 
+builder.Services.AddGrpcClient<CharacterStatusService.CharacterStatusServiceClient>((_, o) =>
+{
+    o.Address = new Uri("http://localhost:8069");
+});
+
 // builder.Services.AddPresentationKafka(builder.Configuration);
 builder.Services
     .AddControllers()

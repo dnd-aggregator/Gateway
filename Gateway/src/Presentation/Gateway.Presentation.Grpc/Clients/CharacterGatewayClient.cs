@@ -1,6 +1,7 @@
 using CharactersGrpc.Proto;
 using Gateway.Application.Contracts.Characters;
 using Gateway.Application.Models.Characters;
+using Gateway.Application.Models.Players;
 using Gateway.Presentation.Grpc.Mappers;
 
 namespace Gateway.Presentation.Grpc.Clients;
@@ -8,10 +9,14 @@ namespace Gateway.Presentation.Grpc.Clients;
 public class CharacterGatewayClient : ICharacterGatewayClient
 {
     private readonly CharacterService.CharacterServiceClient _characterServiceClient;
+    private readonly CharacterStatusService.CharacterStatusServiceClient _characterStatusService;
 
-    public CharacterGatewayClient(CharacterService.CharacterServiceClient characterServiceClient)
+    public CharacterGatewayClient(
+        CharacterService.CharacterServiceClient characterServiceClient,
+        CharacterStatusService.CharacterStatusServiceClient characterStatusService)
     {
         _characterServiceClient = characterServiceClient;
+        _characterStatusService = characterStatusService;
     }
 
     public async Task<long> AddCharacter(long userId, AddCharacterRequest request, CancellationToken cancellationToken)
@@ -59,5 +64,64 @@ public class CharacterGatewayClient : ICharacterGatewayClient
         CharacterGatewayModel character = grpcCharacter.MapToDomainModel();
 
         return character;
+    }
+
+    public async Task<KillResponse> KillCharacter(PlayerGatewayModel player, CancellationToken cancellationToken)
+    {
+        var grpcRequest = new KillCharacterRequest()
+        {
+            CharacterId = player.CharacterId,
+            GameId = player.ScheduleId,
+        };
+
+        KillCharacterResponse response = await _characterStatusService.KillCharacterAsync(grpcRequest);
+
+        return response.ResultCase switch
+        {
+            KillCharacterResponse.ResultOneofCase.None => new KillResponse.KillResponseFailure(),
+            KillCharacterResponse.ResultOneofCase.Success => new KillResponse.KillResponseSuccess(),
+            KillCharacterResponse.ResultOneofCase.NotFound => new KillResponse.KillResponseFailure(),
+            _ => new KillResponse.KillResponseFailure(),
+        };
+    }
+
+    public async Task<AddResponse> AddWeapon(AddRequest request, CancellationToken cancellationToken)
+    {
+        var grpcRequest = new AddWeaponRequest()
+        {
+            CharacterId = request.Player.CharacterId,
+            GameId = request.Player.ScheduleId,
+            Weapon = request.CharacterBonus,
+        };
+
+        AddWeaponResponse grpcResponse = await _characterStatusService.AddWeaponAsync(grpcRequest);
+
+        return grpcResponse.ResultCase switch
+        {
+            AddWeaponResponse.ResultOneofCase.None => new AddResponse.AddResponseFailure(),
+            AddWeaponResponse.ResultOneofCase.Success => new AddResponse.AddResponseSuccess(),
+            AddWeaponResponse.ResultOneofCase.NotFound => new AddResponse.AddResponseFailure(),
+            _ => new AddResponse.AddResponseFailure(),
+        };
+    }
+
+    public async Task<AddResponse> AddGear(AddRequest request, CancellationToken cancellationToken)
+    {
+        var grpcRequest = new AddGearRequest()
+        {
+            CharacterId = request.Player.CharacterId,
+            GameId = request.Player.ScheduleId,
+            Gear = request.CharacterBonus,
+        };
+
+        AddGearResponse response = await _characterStatusService.AddGearAsync(grpcRequest);
+
+        return response.ResultCase switch
+        {
+            AddGearResponse.ResultOneofCase.None => new AddResponse.AddResponseFailure(),
+            AddGearResponse.ResultOneofCase.Success => new AddResponse.AddResponseSuccess(),
+            AddGearResponse.ResultOneofCase.NotFound => new AddResponse.AddResponseFailure(),
+            _ => new AddResponse.AddResponseFailure(),
+        };
     }
 }
