@@ -14,13 +14,13 @@ public class GameController : ControllerBase
         _gameService = gameService;
     }
 
-    [HttpPatch("{id:long}")]
+    [HttpPatch("{id:long}/start")]
     public async Task StartGame(long id, CancellationToken cancellationToken)
     {
         await _gameService.StartGame(id, cancellationToken);
     }
 
-    [HttpPatch("{id:long}/status")]
+    [HttpPatch("{id:long}/stop")]
     public async Task StopGame(long id, CancellationToken cancellationToken)
     {
         await _gameService.StopGame(id, cancellationToken);
