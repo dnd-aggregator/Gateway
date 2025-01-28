@@ -36,8 +36,18 @@ public class ScheduleController : ControllerBase
     }
 
     [HttpPatch("{scheduleId:long}")]
-    public async Task PatchScheduleStatus(long scheduleId, ScheduleStatus status, CancellationToken cancellationToken)
+    public async Task<IActionResult> PlannedSchedule(long scheduleId, CancellationToken cancellationToken)
     {
-        await _scheduleGatewayService.PatchScheduleStatus(scheduleId, status, cancellationToken);
+        PlannedScheduleResponse response =
+            await _scheduleGatewayService.PatchScheduleStatus(scheduleId, ScheduleStatus.Started, cancellationToken);
+
+        return response switch
+        {
+            PlannedScheduleResponse.PlannedScheduleSuccess => Ok(),
+            PlannedScheduleResponse.ScheduleNotFound => NotFound("Schedule not found"),
+            PlannedScheduleResponse.NotEnoughPlayers => BadRequest("Not enough players"),
+            PlannedScheduleResponse.PlannedScheduleNoKnown => NoContent(),
+            _ => throw new InvalidOperationException(),
+        };
     }
 }

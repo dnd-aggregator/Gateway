@@ -10,5 +10,5 @@ public interface IScheduleGatewayService
 
     Task<IEnumerable<ScheduleWithPlayersModel>> GetSchedules(GetSchedulesRequest request, CancellationToken cancellationToken);
 
-    Task PatchScheduleStatus(long scheduleId, ScheduleStatus status, CancellationToken cancellationToken);
+    Task<PlannedScheduleResponse> PatchScheduleStatus(long scheduleId, ScheduleStatus status, CancellationToken cancellationToken);
 }

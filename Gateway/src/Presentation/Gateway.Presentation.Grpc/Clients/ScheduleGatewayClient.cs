@@ -70,7 +70,7 @@ public class ScheduleGatewayClient : IScheduleGatewayClient
             MapFromGrpc(schedule.ScheduleStatus)));
     }
 
-    public async Task PatchScheduleStatus(long scheduleId, ScheduleStatus status, CancellationToken cancellationToken)
+    public async Task<PlannedScheduleResponse> PatchScheduleStatus(long scheduleId, ScheduleStatus status, CancellationToken cancellationToken)
     {
         var grpcRequest = new PatchStatusRequest()
         {
@@ -78,7 +78,16 @@ public class ScheduleGatewayClient : IScheduleGatewayClient
             Status = MapToGrpc(status),
         };
 
-        await _scheduleServiceClient.PatchScheduleStatusAsync(grpcRequest);
+        PatchStatusResponse grpcResponse = await _scheduleServiceClient.PatchScheduleStatusAsync(grpcRequest);
+
+        return grpcResponse.ResponseCase switch
+        {
+            PatchStatusResponse.ResponseOneofCase.None => new PlannedScheduleResponse.PlannedScheduleNoKnown(),
+            PatchStatusResponse.ResponseOneofCase.Success => new PlannedScheduleResponse.PlannedScheduleSuccess(),
+            PatchStatusResponse.ResponseOneofCase.ScheduleNotFound => new PlannedScheduleResponse.ScheduleNotFound(),
+            PatchStatusResponse.ResponseOneofCase.NotEnoughPlayers => new PlannedScheduleResponse.NotEnoughPlayers(),
+            _ => new PlannedScheduleResponse.PlannedScheduleNoKnown(),
+        };
     }
 
     private ScheduleStatus MapFromGrpc(ScheduleStatusGrpc statusGrpc)
