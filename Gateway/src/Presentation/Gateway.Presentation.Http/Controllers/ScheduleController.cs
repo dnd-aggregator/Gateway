@@ -39,7 +39,7 @@ public class ScheduleController : ControllerBase
     public async Task<IActionResult> PlannedSchedule(long scheduleId, CancellationToken cancellationToken)
     {
         PlannedScheduleResponse response =
-            await _scheduleGatewayService.PatchScheduleStatus(scheduleId, ScheduleStatus.Started, cancellationToken);
+            await _scheduleGatewayService.PatchScheduleStatus(scheduleId, ScheduleStatus.Planned, cancellationToken);
 
         return response switch
         {
