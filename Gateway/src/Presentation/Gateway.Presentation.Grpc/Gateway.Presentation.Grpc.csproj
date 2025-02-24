@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <PackageReference Include="Grpc.AspNetCore"/>
+        <PackageReference Include="Grpc.AspNetCore.Server.Reflection"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf ProtoRoot="protos" Include="protos\**\*.proto"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Application\Gateway.Application.Contracts\Gateway.Application.Contracts.csproj"/>
+    </ItemGroup>
+
+</Project>

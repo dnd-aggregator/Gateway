@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package schedules;
+
+option csharp_namespace = "Schedules.Contracts";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+service ScheduleService {
+  rpc CreateSchedule(CreateScheduleGrpcRequest) returns (CreateScheduleGrpcResponse);
+  rpc GetSchedule(GetScheduleGrpcRequest) returns (GetScheduleGrpcResponse);
+  rpc GetSchedules(GetSchedulesGrpcRequest) returns (GetSchedulesGrpcResponse);
+  rpc PatchScheduleStatus(PatchStatusRequest) returns (PatchStatusResponse);
+}
+
+message CreateScheduleGrpcRequest {
+  int64 master_id = 1;
+  string location = 2;
+  google.protobuf.Timestamp date = 3;
+}
+
+message CreateScheduleGrpcResponse {
+  int64 id = 1;
+}
+
+message GetScheduleGrpcRequest {
+  int64 id = 1;
+}
+
+message GetScheduleGrpcResponse {
+  ScheduleGrpc response = 1;
+}
+
+message GetSchedulesGrpcRequest {
+  repeated int64 ids = 1;
+  string location = 2;
+  google.protobuf.Timestamp date = 3;
+  int64 cursor = 4;
+  int32 pageSize = 5;
+}
+
+message GetSchedulesGrpcResponse {
+  repeated ScheduleGrpc response = 1;
+}
+
+message ScheduleGrpc {
+  int64 id = 1;
+  int64 master_id = 2;
+  string location = 3;
+  google.protobuf.Timestamp date = 4;
+  ScheduleStatusGrpc schedule_status = 5;
+}
+
+enum ScheduleStatusGrpc {
+  SCHEDULE_STATUS_UNSPECIFIED = 0;
+  SCHEDULE_STATUS_DRAFT = 1;
+  SCHEDULE_STATUS_PLANNED = 2;
+  SCHEDULE_STATUS_STARTED = 3;
+  SCHEDULE_STATUS_FINISHED = 4;
+}
+
+message PatchStatusRequest {
+  int64 id = 1;
+  ScheduleStatusGrpc status = 2;
+}
+
+message PatchStatusResponse {
+  oneof response {
+    SuccessPatchResponse success = 1;
+    ScheduleNotFoundResponse schedule_not_found = 2;
+    NotEnoughPlayersResponse not_enough_players = 3;
+  }
+}
+
+message SuccessPatchResponse {}
+
+message ScheduleNotFoundResponse {}
+
+message NotEnoughPlayersResponse {}
