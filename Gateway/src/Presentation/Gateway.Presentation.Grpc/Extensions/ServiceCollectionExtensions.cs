@@ -1,5 +1,4 @@
 using Gateway.Application.Contracts.Characters;
-using Gateway.Application.Contracts.Games;
 using Gateway.Application.Contracts.Players;
 using Gateway.Application.Contracts.Schedules;
 using Gateway.Application.Contracts.Users;
@@ -18,7 +17,6 @@ public static class ServiceCollectionExtensions
         collection.AddScoped<IPlayerGatewayClient, PlayerGatewayClient>();
         collection.AddScoped<IUserGatewayClient, UserGatewayClient>();
         collection.AddScoped<ICharacterGatewayClient, CharacterGatewayClient>();
-        collection.AddScoped<IGameGatewayClient, GameGatewayClient>();
 
         return collection;
     }

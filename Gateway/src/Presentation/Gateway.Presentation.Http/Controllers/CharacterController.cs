@@ -27,43 +27,4 @@ public class CharacterController : ControllerBase
     {
         return await _characterGatewayService.GetCharacter(characterId, cancellationToken);
     }
-
-    [HttpPatch("status")]
-    public async Task<IActionResult> KillCharacter(PlayerGatewayModel player, CancellationToken cancellationToken)
-    {
-        KillResponse response = await _characterGatewayService.KillCharacter(player, cancellationToken);
-
-        return response switch
-        {
-            KillResponse.KillResponseSuccess => new OkResult(),
-            KillResponse.KillResponseFailure => new NotFoundResult(),
-            _ => new ConflictResult(),
-        };
-    }
-
-    [HttpPatch("weapon")]
-    public async Task<IActionResult> AddWeapon(AddRequest request, CancellationToken cancellationToken)
-    {
-        AddResponse response = await _characterGatewayService.AddWeapon(request, cancellationToken);
-
-        return response switch
-        {
-            AddResponse.AddResponseSuccess => new OkResult(),
-            AddResponse.AddResponseFailure => new NotFoundResult(),
-            _ => new ConflictResult(),
-        };
-    }
-
-    [HttpPatch("gear")]
-    public async Task<IActionResult> AddGear(AddRequest request, CancellationToken cancellationToken)
-    {
-        AddResponse response = await _characterGatewayService.AddGear(request, cancellationToken);
-
-        return response switch
-        {
-            AddResponse.AddResponseSuccess => new OkResult(),
-            AddResponse.AddResponseFailure => new NotFoundResult(),
-            _ => new ConflictResult(),
-        };
-    }
 }
